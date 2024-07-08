@@ -45,7 +45,29 @@ app.get('/collectibles/:index', (req, res) => {
   }
 });
 
+app.get('/shoes', (req, res) => {
+  let filteredShoes = shoes;
+  if (req.query['min-price']) {
+    const minPrice = parseFloat(req.query['min-price']);
+    if (!isNaN(minPrice)) {
+      filteredShoes = filteredShoes.filter(shoe => shoe.price >= minPrice);
+    }
+  }
+  if (req.query['max-price']) {
+    const maxPrice = parseFloat(req.query['max-price']);
+    if (!isNaN(maxPrice)) {
+      filteredShoes = filteredShoes.filter(shoe => shoe.price <= maxPrice);
+    }
+  }
+  if (req.query.type) {
+    filteredShoes = filteredShoes.filter(shoe => shoe.type === req.query.type);
+  }
+  res.json(filteredShoes);
+});
 
+app.get('*', (req, res) => {
+  res.status(404).send('this is not the page your looking for')
+})
 
 app.listen(3000, () => {
   console.log('I am listening')
