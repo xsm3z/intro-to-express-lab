@@ -62,7 +62,7 @@ app.get('/shoes', (req, res) => {
   if (req.query.type) {
     filteredShoes = filteredShoes.filter(shoe => shoe.type === req.query.type);
   }
-  res.json(filteredShoes);
+  res.send(filteredShoes);
 });
 
 app.get('*', (req, res) => {
